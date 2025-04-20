@@ -1,27 +1,31 @@
-# NER Pipeline для новостных текстов (IDP Data Science Internship)
+%%markdown
+# 1. Определение задачи Named Entity Recognition (NER)
 
-Это репозиторий с полным решением по извлечению сущностей из русскоязычных новостных документов (BREXIT‑семпл, 9 файлов). Всё собрано в одном Jupyter Notebook.
+**Описание задачи.**  
+Named Entity Recognition (NER) — задача автоматического обнаружения и классификации именованных сущностей в тексте. В нашем случае извлекаем из 9 русскоязычных новостных документов про Brexit сущности типов:
+- **PER** (person) — имена людей  
+- **ORG** (organization) — организации и компании  
+- **LOC** (location) — географические объекты  
+- **EVT** (event) — события  
+- **PRO** (product) — продукты и услуги  
 
-## Структура репозитория
+Результат: список триплетов `(begin, end, type)` или последовательность токен+метка (BIO/IOB).
 
-- **README.md** — краткое описание проекта и инструкции по запуску.
-- **requirements.txt** — список зависимостей Python.
-- **ner_pipeline.ipynb** — основной ноутбук с решениями всех пунктов:
-  1. Описание задачи NER и обзор подходов (rule‑based, HMM/CRF, LLM‑based).
-  2. Загрузка данных в `pandas.DataFrame` с колонками `document_id`, `document_text`, `entity`, `gold_answer`.
-  3. Функция для генерации промпта под LLM.
-  4. Вызовы GigaChat / запись предсказаний в DataFrame.
-  5. Реализация функции `score_fn(gold, pred) -> float` + юнит‑тесты.
-  6. Расчёт метрик (precision, recall, F1) по сущностям и по документам + визуализация.
-  7. Анализ зависимости качества от длины документа.
-  8. Анализ ошибок и предложения по улучшению.
-  9. Общие выводы.
+## Классические методы
+1. **Rule‑based**: регулярные выражения, gazetteers.  
+2. **HMM**: скрытые марковские модели.  
+3. **CRF**: условные случайные поля.  
+4. **Token‑classification**: SVM/logistic regression на ручных признаках.
 
-- **predictions.csv** — итоговый CSV с колонками `document_id, entity, pred_answer, gold_answer`.
+## Подходы с LLM
+- **Prompt‑based**: few‑shot или zero‑shot промпты для извлечения сущностей.  
+- **Token‑classification API**: маркировка токенов BIO через API.  
+- **Chain‑of‑Thought**: двухэтапный запрос (сбор кандидатов → классификация).  
+- **Fine‑tuning**: дообучение модели на размеченных данных.
 
-## Как запустить
-
-1. Клонируйте репозиторий:
-   ```bash
-   git clone https://github.com/<ваш‑логин>/idp-ner-assignment.git
-   cd idp-ner-assignment
+## Метрики оценки
+- **Precision** = TP/(TP+FP)  
+- **Recall** = TP/(TP+FN)  
+- **F1** = 2·Precision·Recall/(Precision+Recall)  
+**Strict** (точное совпадение границ и типа) vs. **Partial** (частичное совпадение).  
+Усреднение: micro‑F1 vs. macro‑F1.
