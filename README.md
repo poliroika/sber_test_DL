@@ -95,9 +95,8 @@ $\mathrm{Precision} = \frac{TP}{TP + FP} $
 
 - **Что измеряет:** долю правильно найденных сущностей среди всех истинных сущностей.  
 - **Формула:**  
-  $$
-  \mathrm{Recall} = \frac{TP}{TP + FN}
-  $$  
+  
+  $ \mathrm{Recall} = \frac{TP}{TP + FN} $  
 - **Интерпретация:** если Recall = 0.7, значит модель нашла 70 % всех реальных сущностей.
 
 ---
@@ -106,9 +105,7 @@ $\mathrm{Precision} = \frac{TP}{TP + FP} $
 
 - **Что измеряет:** гармоническое среднее Precision и Recall, балансируя между ними.  
 - **Формула:**  
-  $$
-  F_{1} = 2 \times \frac{\mathrm{Precision} \times \mathrm{Recall}}{\mathrm{Precision} + \mathrm{Recall}}
-  $$  
+$ F_{1} = 2 \times \frac{\mathrm{Precision} \times \mathrm{Recall}}{\mathrm{Precision} + \mathrm{Recall}} $  
 - **Интерпретация:** F1 = 1 только когда и Precision, и Recall равны 1; низкое значение указывает, что модель либо много пропускает, либо много «находит лишнего».
 
 ---
